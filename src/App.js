@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Title } from "./components/Title/Title";
+import { TaskCounter } from "./components/TaskCounter/TaskCounter";
+import { TaskSearchBar } from "./components/TaskSearchBar/TaskSearchBar";
+import { AddTaskButton } from "./components/AddTaskButton/AddTaskButton";
+import { Modal } from "./components/Modal/Modal";
+import { TaskList } from "./components/TaskList/TaskList";
+import { Footer } from "./components/Footer/Footer";
+import { TasksProvider } from "./context/TaskContext";
 
-function App() {
+const App = () => {
+  const [modal, setModal] = useState(false);
+
+  const onOpenModal = () => {
+    setModal(true);
+  };
+
+  const onCloseModal = () => {
+    setModal(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-primary w-full h-screen overflow-x-hidden font-abel">
+      <Title />
+      <TasksProvider>
+        <TaskCounter />
+        <TaskSearchBar />
+        <TaskList />
+        {modal && <Modal onCloseModal={onCloseModal} />}
+        <AddTaskButton onOpenModal={onOpenModal} />
+      </TasksProvider>
+      <Footer />
     </div>
   );
-}
+};
 
-export default App;
+export { App };
